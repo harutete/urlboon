@@ -1,5 +1,30 @@
 import '../sass/style.scss';
 
+class jumpUrl {
+    constructor () {
+        this.config = {
+            setElm: {
+                body: window.document.body
+            },
+            setAttr: {
+                wrap: 'jumpurl-wrap',
+                textarea: 'box-url',
+                modalButton: 'btn-modal',
+                getUrlButton: 'btn-geturl',
+                active: 'active'
+            }
+        }
+        this.win = window;
+        this.doc = this.win.document;
+
+        this.init()
+    }
+    init () {
+        console.log(this.config.setElm.body);
+    }
+}
+new jumpUrl();
+
 (function (win, doc) {
     'use strict';
 
