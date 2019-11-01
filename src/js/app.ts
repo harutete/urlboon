@@ -1,6 +1,13 @@
 import '../sass/style.scss';
 
+interface configOptions {
+    setElm: any,
+    SetAttr: any
+}
 class jumpUrl {
+    win: any
+    doc: any
+    config: any
     constructor () {
         this.win = window;
         this.doc = this.win.document;
@@ -21,7 +28,7 @@ class jumpUrl {
         this.setTogglePanel()
         this.getUrlPage()
     }
-    setPanel () {
+    setPanel (): void {
         const wrap = this.doc.createElement('div');
         const textarea = this.doc.createElement('textarea');
         const modalButton = this.doc.createElement('button');
@@ -40,7 +47,7 @@ class jumpUrl {
 
         this.config.setElm.body.insertAdjacentElement('beforeend', wrap);
     }
-    setTogglePanel () {
+    setTogglePanel (): void {
         const button = this.doc.querySelector(`.${this.config.setAttr.modalButton}`);
         const wrap = this.doc.querySelector(`.${this.config.setAttr.wrap}`);
         let togglePanel = () => {
@@ -53,7 +60,7 @@ class jumpUrl {
 
         button.addEventListener('click', togglePanel, false);
     }
-    getUrlPage  () {
+    getUrlPage  (): void {
         let textVal;
         const box = this.doc.getElementById(this.config.setAttr.textarea);
         const searchStr = new RegExp('http(s)://', 'ig');
