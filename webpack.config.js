@@ -3,7 +3,7 @@ const MODE = 'development';
 
 const config = {
     mode: MODE,
-    entry: './src/js/app.js',
+    entry: './src/js/app.ts',
     output: {
         path: path.join(__dirname, 'dist/js/'),
         filename: 'master.js'
@@ -12,8 +12,15 @@ const config = {
         contentBase: path.join(__dirname, 'dist/'),
         open: true
     },
+    resolve: {
+        extensions: ['.ts', '.js']
+    },
     module: {
         rules: [
+            {
+              test: /\.ts$/,
+              loader: 'ts-loader'
+            },
             {
                 test: /\.scss$/,
                 use: [
