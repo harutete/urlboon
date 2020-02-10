@@ -1,28 +1,18 @@
 import '../sass/style.scss';
 
-interface configOptions {
-  setElm: { [key: string]: HTMLBodyElement },
-  setAttr: { [key: string]: string }
-}
-
 class JumpUrl {
   private readonly win: any
   private readonly doc: any
-  private readonly config: configOptions
+  private readonly setAttr: { [key: string]: string }
   constructor () {
     this.win = window;
     this.doc = this.win.document;
-    this.config = {
-      setElm: {
-        body: this.doc.body
-      },
-      setAttr: {
-        wrap: 'jumpurl-wrap',
-        textarea: 'box-url',
-        modalButton: 'btn-modal',
-        getUrlButton: 'btn-geturl',
-        active: 'active'
-      }
+    this.setAttr = {
+      wrap: 'jumpurl-wrap',
+      textarea: 'box-url',
+      modalButton: 'btn-modal',
+      getUrlButton: 'btn-geturl',
+      active: 'active'
     }
   }
   public init(): void {
@@ -31,30 +21,31 @@ class JumpUrl {
     this.getUrlPage()
   }
   private setPanel (): void {
+    const body = this.doc.body
     const wrap = this.doc.createElement('div');
     const textarea = this.doc.createElement('textarea');
     const modalButton = this.doc.createElement('button');
     const getUrlButton = this.doc.createElement('button');
-    wrap.classList.add(this.config.setAttr.wrap);
+    wrap.classList.add(this.setAttr.wrap);
     wrap.appendChild(textarea);
     wrap.appendChild(modalButton);
     wrap.appendChild(getUrlButton);
-    textarea.setAttribute('id', this.config.setAttr.textarea);
+    textarea.setAttribute('id', this.setAttr.textarea);
     modalButton.setAttribute('type', 'button');
-    modalButton.classList.add(this.config.setAttr.modalButton);
+    modalButton.classList.add(this.setAttr.modalButton);
     getUrlButton.setAttribute('type', 'button');
-    getUrlButton.classList.add(this.config.setAttr.getUrlButton);
+    getUrlButton.classList.add(this.setAttr.getUrlButton);
     getUrlButton.insertAdjacentHTML('beforeend', 'GET!!');
-    this.config.setElm.body.insertAdjacentElement('beforeend', wrap);
+    body.insertAdjacentElement('beforeend', wrap);
   }
   private setTogglePanel (): void {
-    const button = this.doc.querySelector(`.${this.config.setAttr.modalButton}`);
-    const wrap = this.doc.querySelector(`.${this.config.setAttr.wrap}`);
+    const button = this.doc.querySelector(`.${this.setAttr.modalButton}`);
+    const wrap = this.doc.querySelector(`.${this.setAttr.wrap}`);
     let togglePanel = () => {
-      if (!wrap.classList.contains(this.config.setAttr.active)) {
-        wrap.classList.add(this.config.setAttr.active);
+      if (!wrap.classList.contains(this.setAttr.active)) {
+        wrap.classList.add(this.setAttr.active);
       } else {
-        wrap.classList.remove(this.config.setAttr.active);
+        wrap.classList.remove(this.setAttr.active);
       }
     };
 
@@ -62,7 +53,7 @@ class JumpUrl {
   }
   private getUrlPage  (): void {
     let textVal;
-    const box = this.doc.getElementById(this.config.setAttr.textarea);
+    const box = this.doc.getElementById(this.setAttr.textarea);
     const searchStr = new RegExp('http(s)://', 'ig');
     const accessPage = (): void => {
       let urlArr;
@@ -88,7 +79,7 @@ class JumpUrl {
       }
     };
 
-    this.doc.querySelector(`.${this.config.setAttr.getUrlButton}`).addEventListener('click', accessPage, false);
+    this.doc.querySelector(`.${this.setAttr.getUrlButton}`).addEventListener('click', accessPage, false);
   }
 }
 
