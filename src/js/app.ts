@@ -1,87 +1,77 @@
 import '../sass/style.scss'
 
-class JumpUrl {
-  private readonly win: any
-  private readonly doc: any
-  private readonly setAttr: { [key: string]: string }
+class TransitionPage {
+  private readonly _win: Window
+  private readonly _doc: HTMLDocument
   constructor() {
-    this.win = window
-    this.doc = this.win.document
-    this.setAttr = {
-      wrap: 'jumpurl-wrap',
-      textarea: 'box-url',
-      modalButton: 'btn-modal',
-      getUrlButton: 'btn-geturl',
-      active: 'active'
-    }
+    this._win = window
+    this._doc = this._win.document
   }
   public init(): void {
+    let btnSlidePanel: HTMLButtonElement
+    let btnTransition: HTMLButtonElement
     this.setPanel()
-    this.setTogglePanel()
-    this.getUrlPage()
+
+    btnSlidePanel = this._doc.querySelector('.js-btn-toggle-menu')
+    btnTransition = this._doc.querySelector('.js-btn-transition')
+    btnSlidePanel.addEventListener('click', () => {
+      this.toggleSlideMenu()
+    })
+    btnTransition.addEventListener('click', () => {
+      this.openNewTabAndTransition()
+    })
   }
   private setPanel(): void {
-    const body = this.doc.body
-    const wrap = this.doc.createElement('div')
-    const textarea = this.doc.createElement('textarea')
-    const modalButton = this.doc.createElement('button')
-    const getUrlButton = this.doc.createElement('button')
-    wrap.classList.add(this.setAttr.wrap)
-    wrap.appendChild(textarea)
-    wrap.appendChild(modalButton)
-    wrap.appendChild(getUrlButton)
-    textarea.setAttribute('id', this.setAttr.textarea)
-    modalButton.setAttribute('type', 'button')
-    modalButton.classList.add(this.setAttr.modalButton)
-    getUrlButton.setAttribute('type', 'button')
-    getUrlButton.classList.add(this.setAttr.getUrlButton)
-    getUrlButton.insertAdjacentHTML('beforeend', 'GET!!')
-    body.insertAdjacentElement('beforeend', wrap)
+    const body = this._doc.body
+    const panelElms: string = '<div class="js-content-transition-page content-transition-page">\n\
+      <button type="button" class="js-btn-toggle-menu btn-toggle-menu"></button>\n\
+      <div class="content-transition-page__inner">\n\
+        <textarea class="js-textarea-input textarea-input"></textarea>\n\
+        <button type="button" class="js-btn-transition btn-transition">Access</button>\n\
+      </div>\n\
+    </div>'
+    body.insertAdjacentHTML('afterbegin', panelElms)
   }
-  private setTogglePanel(): void {
-    const button = this.doc.querySelector(`.${this.setAttr.modalButton}`)
-    const wrap = this.doc.querySelector(`.${this.setAttr.wrap}`)
-    let togglePanel = () => {
-      if (!wrap.classList.contains(this.setAttr.active)) {
-        wrap.classList.add(this.setAttr.active)
-      } else {
-        wrap.classList.remove(this.setAttr.active)
-      }
+  private toggleSlideMenu(): void {
+    const wrap = this._doc.querySelector('.js-content-transition-page')
+    const activeClass = 'is-active'
+
+    if (wrap.classList.contains(activeClass)) {
+      wrap.classList.remove(activeClass)
+    } else {
+      wrap.classList.add(activeClass)
+    }
+  }
+  private openNewTabAndTransition(): void {
+    const textArea: HTMLTextAreaElement = this._doc.querySelector('.js-textarea-input')
+    const limit = 5 // 一度に開けるタブの上限数
+    const value = textArea.value
+    const searchStr = new RegExp('http(s)://', 'ig')
+
+    if (value === '') {
+      this._win.alert('URLを入力してください')
+
+      return
     }
 
-    button.addEventListener('click', togglePanel, false)
-  }
-  private getUrlPage(): void {
-    let textVal
-    const box = this.doc.getElementById(this.setAttr.textarea)
-    const searchStr = new RegExp('http(s)://', 'ig')
-    const accessPage = (): void => {
-      let urlArr
-      let i
-      let len
-      textVal = box.value
+    const urlStrArr = value.split(/\r\n|\n/)
 
-      if (textVal === '') {
-        this.win.alert('URLを入力してください')
+    if (urlStrArr.length > limit) {
+      this._win.alert(`入力できるURLは${limit}個までです`)
 
+      return
+    }
+
+    urlStrArr.forEach(item => {
+      if (searchStr.test(item)) {
+        this._win.open(item)
+      } else {
         return
       }
 
-      urlArr = textVal.split(/\r\n|\n/)
-      len = urlArr.length
-      for (i = 0; i < len; i++) {
-        if (searchStr.test(urlArr[i])) {
-          this.win.open(urlArr[i])
-        } else {
-          continue
-        }
-
-        searchStr.lastIndex = 0
-      }
-    }
-
-    this.doc.querySelector(`.${this.setAttr.getUrlButton}`).addEventListener('click', accessPage, false)
+      searchStr.lastIndex = 0
+    })
   }
 }
 
-new JumpUrl().init()
+new TransitionPage().init()

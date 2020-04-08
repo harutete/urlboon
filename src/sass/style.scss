@@ -1,57 +1,58 @@
 @charset 'utf-8';
 
-.jumpurl {
-    &-wrap {
-        position: fixed;
-        top: 0;
-        right: -300px;
-        z-index: 99999;
-        transition: right .2s;
-        background: rgba(0, 0, 0, .6);
-        width: 300px;
-        height: 100%;
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        #box-url {
-            display: block;
-            width: 280px;
-            max-width: 100%;
-            min-height: 150px;
-            margin: 20px auto 0;
-        }
-        &.active {
-            right: 0;
-        }
-    }
+
+.content-transition-page {
+  position: fixed;
+  top: 0;
+  right: -300px;
+  z-index: 99999;
+  transition: right .2s;
+  background: rgba(0, 0, 0, .6);
+  width: 300px;
+  height: 100%;
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  &.is-active {
+    right: 0;
+  }
 }
+
 .btn {
-    &-geturl {
-        cursor: pointer;
-        display: block;
-        background: #2CA9E1;
-        border: none {
-            radius: 3px;
-        }
-        color: #FFF;
-        margin: 20px auto 0;
-        padding: 10px 15px;
+  &-toggle-menu {
+    cursor: pointer;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: -50px;
+    background: #2CA9E1;
+    border: none {
+      radius: 0 0 0 5px;
     }
-    &-modal {
-        cursor: pointer;
-        display: block;
-        position: absolute;
-        top: 0;
-        left: -50px;
-        background: #2CA9E1;
-        border: none {
-            radius: 0 0 0 5px;
-        }
-        width: 50px;
-        height: 50px;
+    width: 50px;
+    height: 50px;
+  }
+  &-transition {
+    cursor: pointer;
+    display: block;
+    background: #2CA9E1;
+    border: none {
+      radius: 3px;
     }
+    color: #FFF;
+    margin: 20px auto 0;
+    padding: 10px 15px;
+  }
+}
+
+.textarea-input {
+  display: block;
+  width: 280px;
+  max-width: 100%;
+  min-height: 150px;
+  margin: 20px auto 0;
 }

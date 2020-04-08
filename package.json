@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "build": "webpack",
-    "start": "webpack-dev-server --hot --inline --watch-content-base --open-page index.html",
+    "start": "webpack-dev-server",
     "watch": "webpack --watch"
   },
   "devDependencies": {
